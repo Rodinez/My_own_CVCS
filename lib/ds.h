@@ -16,16 +16,16 @@ typedef struct node {
         struct {
             __INT32_TYPE__ size;
             void *data;
-            struct node *parent;
         } blob;
-
+        
         struct {
             struct node *first_children;
             struct node *last_children;
         } tree;
     };
-
+    
     struct node *next;
+    struct node *parent;
 } node;
 
 node *create_tree(const char *name);
