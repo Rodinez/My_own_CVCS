@@ -16,6 +16,6 @@ int main(){
     root = read_dir(dir, repo, root, path);
 
     int levels[10] = {0};
-    print_file_tree(root, -1, levels);
+    print_files(root, 0, levels);
     return 0;
 }

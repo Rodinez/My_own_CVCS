@@ -7,7 +7,7 @@ node *create_tree(const char *name) {
     node *new_tree = (node*)malloc(sizeof(node));
     strcpy(new_tree->name, name);
     new_tree->type = NODE_TREE;
-    new_tree->tree.parent = NULL;
+    new_tree->parent = NULL;
     new_tree->tree.first_children = NULL;
     new_tree->tree.last_children = NULL;
     return new_tree;
@@ -50,26 +50,27 @@ void print_file_tree(node *root, int8_t depth, int levels[10]) {
         return;
 
     for (int8_t i = 0; i < depth; i++){
-        printf(!levels[i] ? "|" : " ");
+        printf(!levels[i] ? "│" : " ");
         printf("  ");
     }
 
     if (root->type == NODE_BLOB) {
-        printf(root->next == NULL ? "└ %s\n" : "├ %s\n", root->name);
-        if (root->next == NULL) 
+        printf(root->next == NULL ? "└─ %s\n" : "├─ %s\n", root->name);
+        print_file_tree(root->next, depth, levels);
+        if (root->parent->next == NULL) 
+            levels[depth] = 1;
+    } else if (root->type == NODE_TREE) {
+        printf(root->next == NULL ? "└─ %s/\n" : "├─ %s/\n", root->name);
+        print_file_tree(root->tree.first_children, depth+1, levels);
+        if (root->parent->next == NULL)
             levels[depth] = 1;
         print_file_tree(root->next, depth, levels);
-    } else if (root->type == NODE_TREE) {
-        if (depth != -1 ) {
-            printf(root->next == NULL ? "└ %s/\n" : "├ %s/\n", root->name);
-            if (root->next == NULL)
-                levels[depth] = 1;
-        } else {
-            printf("%s/\n", root->name);
-        }
-        print_file_tree(root->tree.first_children, depth+1, levels);
-        print_file_tree(root->next, depth, levels);
     }
+}
+
+void print_files(node *root, int8_t depth, int levels[10]) {
+    printf("%s/\n", root->name);
+    print_file_tree(root->tree.first_children, depth, levels);
 }
 
 void destroy(node* root) {
