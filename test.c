@@ -13,15 +13,15 @@ int main(){
     node *dir2 = create_tree("lib");
     node *dir3 = create_tree("data");
 
-    node *file1 = create_blob("file1", NULL, 12);
-    node *file2 = create_blob("file2", NULL, 22);
-    node *file3 = create_blob("file3", NULL, 32);
-    node *file4 = create_blob("file4", NULL, 12);
-    node *file5 = create_blob("file5", NULL, 22);
-    node *file6 = create_blob("file6", NULL, 32);
-    node *file7 = create_blob("file7", NULL, 12);
-    node *file8 = create_blob("file8", NULL, 22);
-    node *file9 = create_blob("file9", NULL, 32);
+    node *file1 = create_blob("file1", 12);
+    node *file2 = create_blob("file2", 22);
+    node *file3 = create_blob("file3", 32);
+    node *file4 = create_blob("file4", 12);
+    node *file5 = create_blob("file5", 22);
+    node *file6 = create_blob("file6", 32);
+    node *file7 = create_blob("file7", 12);
+    node *file8 = create_blob("file8", 22);
+    node *file9 = create_blob("file9", 32);
     
     // level 0
     add_child(root, file1);

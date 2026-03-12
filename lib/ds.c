@@ -13,11 +13,10 @@ node *create_tree(const char *name) {
     return new_tree;
 }
 
-node *create_blob(const char *name, void *data, int32_t size) {
+node *create_blob(const char *name, int32_t size) {
     node *new_blob = (node*)malloc(sizeof(node));
     strcpy(new_blob->name, name);
     new_blob->type = NODE_BLOB;
-    new_blob->blob.data = data;
     new_blob->blob.size = size;
     new_blob->parent = NULL;
     new_blob->next = NULL;

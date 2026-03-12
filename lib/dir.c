@@ -4,6 +4,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <openssl/sha.h>
 #include "ds.h"
 #include "dir.h"
 
@@ -22,11 +23,61 @@ node* read_dir(DIR *dir, struct dirent *repo, node *root, char path[PATH_LEN]) {
             DIR *subdir = opendir(new_path);
             struct dirent *new_dir;
             read_dir(subdir, new_dir, new_tree, new_path);
+            calculate_tree_hash(new_tree);
+            """for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+                printf("%02x", new_tree->hash[i]);
+            printf("\n");"""
         } else {
-            // mudar os dados e o tamanho depois
-            node *new_blob = create_blob(repo->d_name, NULL, 0);
+            char new_path[PATH_LEN];
+            new_path[0] = '\0';
+            strcat(new_path, path);
+            strcat(new_path, "/");
+            strcat(new_path, repo->d_name);
+            struct stat info;
+            stat(new_path, &info);
+            node *new_blob = create_blob(repo->d_name, info.st_size);
             add_child(root, new_blob);
+            calculate_blob_hash(new_blob, new_path);
+            """for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+                printf("%02x", new_blob->hash[i]);
+            printf("\n");"""
         }
     }
     return root;
+}
+
+void calculate_blob_hash(node* new_blob, char new_path[PATH_LEN]) {
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    FILE *file = fopen(new_path, "rb");
+
+    if (file == NULL) {
+        printf("Cannot open file\n");
+        exit(1);
+    }
+
+    unsigned char buffer[4096];
+    size_t bytes;
+    while ((bytes = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        SHA256_Update(&ctx, buffer, bytes);
+    }
+
+    SHA256_Final(new_blob->hash, &ctx);
+    fclose(file);
+};
+
+void calculate_tree_hash(node* new_tree) {
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    node *child = new_tree->tree.first_children;
+
+    while (child != NULL) {
+        SHA256_Update(&ctx, &child->type, sizeof(child->type));
+        SHA256_Update(&ctx, child->name, strlen(child->name));
+        SHA256_Update(&ctx, child->hash, SHA256_DIGEST_LENGTH);
+
+        child = child->next;
+    }
+
+     SHA256_Final(new_tree->hash, &ctx);
 }
