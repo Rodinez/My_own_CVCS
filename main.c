@@ -17,5 +17,6 @@ int main(){
 
     int levels[10] = {0};
     print_files(root, 0, levels);
+    destroy(root);
     return 0;
 }
