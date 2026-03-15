@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include "lib/ds.h"
 #include "lib/dir.h"
+#include "lib/conf.h"
 
 int main(){
     node *root = create_tree("repo");
@@ -14,9 +15,12 @@ int main(){
     struct dirent *repo;
     
     root = read_dir(dir, repo, root, path);
+    calculate_tree_hash(root);
+    
+    commit *first_commit = create_commit(root->hash, author, message);
 
     int levels[10] = {0};
     print_files(root, 0, levels);
-    destroy(root);
+    destroy_nodes(root);
     return 0;
 }
