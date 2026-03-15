@@ -26,7 +26,11 @@ node *create_blob(const char *name, int32_t size) {
 }
 
 // link the nodes based on the types of both
-void add_child(node *parent, node *child) {
+''' 
+Worth to make the insertion alphabetically ordered to avoid equal trees but with files in distinct orders to be seen
+as different snapshots by the hash (dont know if it will happen but if it happens its cause of this insertion)
+'''
+void add_child(node *parent, node *child) { 
     // if the parent is a tree...
     if (parent->type == NODE_TREE) {
         if (!parent->tree.first_children) {
