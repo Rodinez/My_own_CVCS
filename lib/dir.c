@@ -26,7 +26,7 @@ node* read_dir(DIR *dir, struct dirent *repo, node *root, char path[PATH_LEN]) {
             read_dir(subdir, new_dir, new_tree, new_path);
             calculate_tree_hash(new_tree);
             // -> print hash
-            //for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) ]
+            //for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
             //    printf("%02x", new_tree->hash[i]);
             //printf("\n");
         } else { // if file...
