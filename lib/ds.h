@@ -80,7 +80,7 @@ void destroy_nodes(node *root);
 // FUNCTIONS FOR COMMITS
 
 // creat a commit
-commit *create_commit(unsigned char tree_hash[SHA256_DIGEST_LENGTH], char author[100], char message[510]);
+commit *create_commit(commit *head, unsigned char tree_hash[SHA256_DIGEST_LENGTH], char author[100], char message[510]);
 
 // calculate the SHA-256 for the commit
 void calculate_commit_hash(commit *com);

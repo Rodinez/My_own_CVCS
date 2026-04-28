@@ -139,10 +139,16 @@ void destroy_nodes(node* root) {
 // FUNCTIONS FOR COMMITS
 
 // creat a commit
-commit *create_commit(unsigned char tree_hash[SHA256_DIGEST_LENGTH], char author[100], char message[510]){
+commit *create_commit(commit *head, unsigned char tree_hash[SHA256_DIGEST_LENGTH], char author[100], char message[510]){
     commit *new_commit = (commit*)malloc(sizeof(commit));
     memcpy(new_commit->tree_hash, tree_hash, SHA256_DIGEST_LENGTH);
-    // Identify the last commit here
+    
+    if (head){
+        memcpy(new_commit->parent_commit, head->hash_commit, SHA256_DIGEST_LENGTH);
+    } else {
+        memset(new_commit->parent_commit, 0, SHA256_DIGEST_LENGTH);
+    }
+    
     strcpy(new_commit->author, author);
     strcpy(new_commit->message, message);
     time(&new_commit->timestamp);
@@ -154,7 +160,7 @@ void calculate_commit_hash(commit *com){
     SHA256_Init(&ctx);
 
     SHA256_Update(&ctx, com->tree_hash, SHA256_DIGEST_LENGTH);
-    // SHA256_Update(&ctx, com->parent_commit, SHA256_DIGEST_LENGTH);
+    SHA256_Update(&ctx, com->parent_commit, SHA256_DIGEST_LENGTH);
     SHA256_Update(&ctx, com->author, strlen(com->author));
     SHA256_Update(&ctx, com->message, strlen(com->message));
     SHA256_Update(&ctx, &com->timestamp, sizeof(com->timestamp));
