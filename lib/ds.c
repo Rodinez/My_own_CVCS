@@ -156,7 +156,7 @@ void calculate_commit_hash(commit *com){
     SHA256_Update(&ctx, com->tree_hash, SHA256_DIGEST_LENGTH);
     // SHA256_Update(&ctx, com->parent_commit, SHA256_DIGEST_LENGTH);
     SHA256_Update(&ctx, com->author, strlen(com->author));
-    SHA256_Update(&ctx, com->message, strlen(com->author));
+    SHA256_Update(&ctx, com->message, strlen(com->message));
     SHA256_Update(&ctx, &com->timestamp, sizeof(com->timestamp));
 
     SHA256_Final(com->commit_hash, &ctx);
