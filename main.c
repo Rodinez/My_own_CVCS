@@ -19,8 +19,7 @@ int main(){
     
     commit *first_commit = create_commit(root->hash, author, message);
 
-    int levels[10] = {0};
-    print_files(root, 0, levels);
+    print_files(root);
     destroy_nodes(root);
     return 0;
 }

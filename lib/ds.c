@@ -51,7 +51,7 @@ void next(node *current, node* next) {
 }
 
 // internal function for printing
-void print_file_tree(node *root, int8_t depth, int levels[10]) {
+void print_file_tree(node *root, short int depth, int levels[10]) {
     if (root == NULL)
         return;
 
@@ -76,8 +76,10 @@ void print_file_tree(node *root, int8_t depth, int levels[10]) {
 }
 
 // print all nodes
-void print_files(node *root, int8_t depth, int levels[10]) {
+void print_files(node *root) {
     printf("%s/\n", root->name);
+    short int depth = 0;
+    int levels[10] = {0};
     print_file_tree(root->tree.first_children, depth, levels);
 }
 

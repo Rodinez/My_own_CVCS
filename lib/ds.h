@@ -59,9 +59,11 @@ void add_child(node *parent, node *child);
 // add a blob as next of the actual blob
 void next(node *current, node* next);
 // print all nodes
-void print_files(node *root, int8_t depth, int levels[10]);
+void print_files(node *root);
+
 // internal function for printing
-void print_file_tree(node *root, int8_t depth, int levels[10]);
+void print_file_tree(node *root, short int depth, int levels[10]);
+
 // calculate the SHA-256 for the blob
 void calculate_blob_hash(node *new_blob, char new_path[PATH_LEN]);
 // calculate the SHA-256 for the tree
