@@ -142,9 +142,9 @@ void destroy_nodes(node* root) {
 commit *create_commit(commit *head, unsigned char tree_hash[SHA256_DIGEST_LENGTH], char author[100], char message[510]){
     commit *new_commit = (commit*)malloc(sizeof(commit));
     memcpy(new_commit->tree_hash, tree_hash, SHA256_DIGEST_LENGTH);
-    
+
     if (head){
-        memcpy(new_commit->parent_commit, head->hash_commit, SHA256_DIGEST_LENGTH);
+        memcpy(new_commit->parent_commit, head->commit_hash, SHA256_DIGEST_LENGTH);
     } else {
         memset(new_commit->parent_commit, 0, SHA256_DIGEST_LENGTH);
     }

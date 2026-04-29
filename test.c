@@ -85,7 +85,7 @@ void test_commit() {
     char path[PATH_LEN] = "repo/file1.txt";
     calculate_blob_hash(blob, path);
     calculate_tree_hash(root);
-    commit *com = create_commit(root->hash, author, message);
+    commit *com = create_commit(NULL, root->hash, author, message);
     
     assert(memcmp(root->hash, com->tree_hash, SHA256_DIGEST_LENGTH) == 0);
     assert(strcmp(com->author, author) == 0);
